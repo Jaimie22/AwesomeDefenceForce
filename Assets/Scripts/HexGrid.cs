@@ -5,29 +5,13 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 
-// ============================================================================
-// HexGrid
-// ----------------------------------------------------------------------------
-// Put this on an empty GameObject called "HexGrid". It's the board manager.
-//
-// IN THE EDITOR:
-//   Right-click the HexGrid component header > "Generate Map"
-//   to build a fresh board of tiles. They stay in your scene, so you can
-//   paint terrain, delete tiles, and save the map with the scene.
-//
-// DURING PLAY:
-//   It finds all the tiles under it and keeps a list of them, so it can
-//   look tiles up by address and work out movement ranges.
-// ============================================================================
 
 public class HexGrid : MonoBehaviour
 {
     // The two ways a hex can sit. Shows as a dropdown in the Inspector.
     public enum Orientation { PointyTop, FlatTop }
 
-    // ------------------------------------------------------------------------
-    // Inspector settings (these are only used when you click Generate Map)
-    // ------------------------------------------------------------------------
+
     [Header("Map Size")]
     [Min(1)] public int width = 10;    // tiles across
     [Min(1)] public int height = 8;    // tiles deep
@@ -50,9 +34,6 @@ public class HexGrid : MonoBehaviour
 
     public Orientation orientation = Orientation.PointyTop;
 
-    // ------------------------------------------------------------------------
-    // Private stuff
-    // ------------------------------------------------------------------------
 
     // The "phone book": look up any tile by its address.
     readonly Dictionary<HexCoord, HexTile> tiles = new Dictionary<HexCoord, HexTile>();
@@ -60,20 +41,15 @@ public class HexGrid : MonoBehaviour
     // Square root of 3, used in the hex maths. Worked out once.
     static readonly float Sqrt3 = Mathf.Sqrt(3f);
 
-    // ------------------------------------------------------------------------
-    // Awake: runs once when the game starts.
-    // ------------------------------------------------------------------------
+
     void Awake()
     {
         RegisterTiles();
     }
 
-    // ------------------------------------------------------------------------
-    // RegisterTiles
-    // ------------------------------------------------------------------------
     // Finds every tile sitting under the HexGrid and adds it to the phone book.
     // Because it only registers tiles that exist, any tile you deleted
-    // simply isn't part of the map. That's how you make odd-shaped maps.
+    // simply isn't part of the map.
     public void RegisterTiles()
     {
         tiles.Clear();
@@ -92,9 +68,6 @@ public class HexGrid : MonoBehaviour
         }
     }
 
-    // ------------------------------------------------------------------------
-    // CoordToWorld
-    // ------------------------------------------------------------------------
     // Converts a hex address (q, r) into a real position in the scene.
     public Vector3 CoordToWorld(HexCoord c)
     {
@@ -116,18 +89,14 @@ public class HexGrid : MonoBehaviour
         return transform.TransformPoint(new Vector3(x, 0f, z));
     }
 
-    // ------------------------------------------------------------------------
-    // GetTile: find a tile by address. Returns null if there isn't one.
-    // ------------------------------------------------------------------------
+
     public HexTile GetTile(HexCoord c)
     {
         tiles.TryGetValue(c, out HexTile tile);
         return tile;
     }
 
-    // ------------------------------------------------------------------------
-    // GetNeighbours: all tiles touching this address (up to 6).
-    // ------------------------------------------------------------------------
+
     public List<HexTile> GetNeighbours(HexCoord c)
     {
         List<HexTile> result = new List<HexTile>();
@@ -141,9 +110,7 @@ public class HexGrid : MonoBehaviour
         return result;
     }
 
-    // ------------------------------------------------------------------------
-    // GetReachable
-    // ------------------------------------------------------------------------
+
     // Every tile a unit could move to from 'start' with 'movePoints'.
     // Like pouring water: it spreads out from the start, can't enter
     // unwalkable tiles, costs more to cross rough terrain, and stops
@@ -198,13 +165,7 @@ public class HexGrid : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    // ========================================================================
-    // EDITOR-ONLY TOOLS (these don't exist in the finished game)
-    // ========================================================================
 
-    // ------------------------------------------------------------------------
-    // Right-click menu option: "Generate Map"
-    // ------------------------------------------------------------------------
     [ContextMenu("Generate Map")]
     void GenerateMap()
     {
@@ -265,9 +226,7 @@ public class HexGrid : MonoBehaviour
         EditorSceneManager.MarkSceneDirty(gameObject.scene);
     }
 
-    // ------------------------------------------------------------------------
-    // SpawnTile: creates one tile at an address, in the editor.
-    // ------------------------------------------------------------------------
+
     void SpawnTile(HexCoord c)
     {
         // Create the tile as a proper prefab copy (keeps the prefab link,
@@ -288,9 +247,7 @@ public class HexGrid : MonoBehaviour
         tile.ApplyTerrain();
     }
 
-    // ------------------------------------------------------------------------
-    // Right-click menu option: "Refresh All Tiles"
-    // ------------------------------------------------------------------------
+
     // Rebuilds every tile's model. Use this after changing a TerrainType's
     // settings (like its height) so the whole map catches up.
     [ContextMenu("Refresh All Tiles")]

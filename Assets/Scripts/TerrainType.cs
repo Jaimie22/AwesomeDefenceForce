@@ -1,15 +1,6 @@
 using UnityEngine;
 
-// ============================================================================
-// TerrainType
-// ----------------------------------------------------------------------------
-// This is NOT a component. It's an ASSET, a little settings file that lives
-// in your Project window, like a material does.
-//
-// You make one for each kind of ground: Ground, Forest, Water, Rock, etc.
-// To create one: right-click in the Project window
-//   > Create > Hex > Terrain Type
-// ============================================================================
+
 
 // Adds "Hex > Terrain Type" to the right-click Create menu.
 [CreateAssetMenu(fileName = "NewTerrain", menuName = "Hex/Terrain Type")]

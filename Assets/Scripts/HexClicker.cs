@@ -1,22 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;   // Unity 6's input system (mouse, keyboard, etc.)
-
-// ============================================================================
-// HexClicker
-// ----------------------------------------------------------------------------
-// A TEST script. Put it on the same "HexGrid" object as HexGrid.
-//
-// When you left-click a tile, it pretends a unit is standing there and
-// lights up every tile that unit could move to. It's just to prove the
-// grid works. Later we'll replace it with proper unit selection.
-// ============================================================================
+using UnityEngine.InputSystem;   
 
 public class HexClicker : MonoBehaviour
 {
-    // ------------------------------------------------------------------------
-    // Inspector settings
-    // ------------------------------------------------------------------------
 
     // The board. If you leave this empty, it finds HexGrid on the same object.
     public HexGrid grid;
@@ -30,26 +17,16 @@ public class HexClicker : MonoBehaviour
     // Which layers the click can hit. "Everything" by default.
     public LayerMask tileLayers = ~0;
 
-    // ------------------------------------------------------------------------
-    // Private stuff
-    // ------------------------------------------------------------------------
-
     // Remembers which tiles are currently lit up, so we can switch
     // them off again before lighting up a new set.
     readonly List<HexTile> highlighted = new List<HexTile>();
 
-    // ------------------------------------------------------------------------
-    // Awake: runs once when the game starts. Fills in anything left empty.
-    // ------------------------------------------------------------------------
     void Awake()
     {
         if (cam == null) cam = Camera.main;
         if (grid == null) grid = GetComponent<HexGrid>();
     }
 
-    // ------------------------------------------------------------------------
-    // Update: Unity runs this every single frame.
-    // ------------------------------------------------------------------------
     void Update()
     {
         // If there's no mouse, or the left button wasn't JUST clicked

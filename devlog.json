@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "mv0stwkpfrb3",
+    "date": "2026-10-09",
+    "game": "Awesome Defence Force",
+    "type": "Feature",
+    "title": "City Level Grey-Boxing",
+    "summary": "** Furniture still to come! **. \nBut the preliminary setup of the metropolis is done. Ruined buildings, and lots of areas to take cover, make it feel like a great place for a fight!",
+    "points": [
+      "Setup the City level. Added multiple streets, angles, buildings and POI's for a great battle scene!"
+    ],
+    "images": [
+      "assets/devlog/2026-10-09-city-level-grey-boxing-mv0stunk-1.jpg",
+      "assets/devlog/2026-10-09-city-level-grey-boxing-mv0stunk-2.jpg"
+    ]
+  }
+]
